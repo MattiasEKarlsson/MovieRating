@@ -1,0 +1,43 @@
+﻿@using MovieRating.Services
+@using SharedLibrary
+@inject IMovieService MovieService
+
+
+@if (movies == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @foreach (var post in movies)
+    {
+        <div style="margin:10px;">
+            <div>
+                <h4>@post.Title</h4>
+            </div>
+            <div>
+                <img src="@post.Image" width="300"/>
+            </div>
+            <div>
+                <p>@post.Description</p>
+            </div>
+            <div>
+                <a href="/movies/@post.Id">See more..</a>
+            </div>
+
+        </div>
+    }
+    
+}
+@code {
+    private List<Movie> movies = new List<Movie>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        movies = await MovieService.GetMovies();
+        if (movies.Count()<1)
+        {
+            await MovieService.CreateInitialMovies();
+        }
+    }
+}

@@ -1,0 +1,50 @@
+﻿@page "/write-a-review/{id}"
+@inject IMovieService MovieService
+@inject IReviewService ReviewService
+@inject NavigationManager NavManager;
+
+@if (movie == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="@review" OnValidSubmit="AddReview">
+        <DataAnnotationsValidator />
+        <div class="form-group">
+            <label for="reviewText">Write Review</label>
+            <InputText id="reviewText" @bind-Value="review.ReviewText" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="rating">Rating</label>
+            <InputSelect id="rating" @bind-Value="review.Rating">
+                <option value="1">1 Star</option>
+                <option value="2">2 Star</option>
+                <option value="3">3 Star</option>
+                <option value="4">4 Star</option>
+                <option value="5">5 Star</option>
+            </InputSelect>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+        <ValidationSummary />
+    </EditForm>
+
+}
+@code {
+    [Parameter]
+    public string id { get; set; }
+    private Movie movie;
+    private Review review = new Review();
+
+    protected override async Task OnInitializedAsync()
+    {
+        movie = await MovieService.GetMovieById(Int32.Parse(id));
+    }
+    async Task AddReview()
+    {
+        review.Movie = movie.Id;
+        var result = await ReviewService.CreateReview(review);
+        NavManager.NavigateTo("/");
+    }
+
+}

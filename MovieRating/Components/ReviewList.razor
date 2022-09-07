@@ -1,0 +1,38 @@
+﻿@inject IMovieService MovieService
+@inject IReviewService ReviewService
+@inject NavigationManager NavManager;
+
+<h2>All Reviews</h2>
+
+@if (reviews == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @foreach (var review in reviews)
+    {
+        <div style="margin:10px;">
+            <div>
+                <h5>@review.ReviewText</h5>
+            </div>
+            <div>
+                <h4>@review.Rating</h4>
+            </div>
+           
+            
+
+        </div>
+    }
+    
+}
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private List<Review> reviews = new List<Review>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        reviews = await ReviewService.GetReviewByMovieId(id);
+    }
+}

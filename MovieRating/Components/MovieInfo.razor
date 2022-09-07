@@ -1,0 +1,38 @@
+﻿@page "/movies/{id}"
+
+@inject IMovieService MovieService
+
+
+@if (movie == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div>
+        <h3>@movie.Title</h3>
+        <div>
+            <img src="@movie.Image" width="300" />
+        </div>
+        <p>@movie.Description</p>
+    </div>
+    <div>
+        <a href="/write-a-review/@movie.Id">Write a review...</a>
+        <a>@movie.Id</a>
+    </div>
+
+    <ReviewList id="@movie.Id" />
+
+}
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    private Movie movie;
+
+    protected override async Task OnInitializedAsync()
+    {
+        movie = await MovieService.GetMovieById(Int32.Parse(id));
+    }
+}
