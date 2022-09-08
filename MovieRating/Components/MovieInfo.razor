@@ -19,9 +19,12 @@ else
     if (authenticationState.User.Identity.IsAuthenticated)
     {
         <div>
-            <a href="/write-a-review/@movie.Id">Write a review...</a>
+            <a type="button" class="btn btn-primary btnstyle" href="/write-a-review/@movie.Id">Write a review...</a>
         </div>
-        <EditDelete id="@id"/>
+        @if (authenticationState.User.IsInRole(SD.Role_Admin))
+        {
+            <EditDelete id="@id" />
+        }
     }
     <ReviewList id="@movie.Id" />
 

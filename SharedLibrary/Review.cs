@@ -13,9 +13,11 @@ namespace SharedLibrary
         [Key]
         public int Id { get; set; }
         public string ReviewText { get; set; } = String.Empty;
-        public int Rating { get; set; } = 0;
+        public double Rating { get; set; } = 0;
         [ForeignKey("MovieId")]
         public virtual int Movie { get; set; }
-        
+        public virtual string UserEmail { get; set; }
+
+
     }
 }

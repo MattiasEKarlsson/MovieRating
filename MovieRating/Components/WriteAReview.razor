@@ -37,12 +37,18 @@ else
     private Movie movie;
     private Review review = new Review();
 
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+    AuthenticationState authenticationState;
+
     protected override async Task OnInitializedAsync()
     {
+        authenticationState = await AuthenticationState;
         movie = await MovieService.GetMovieById(Int32.Parse(id));
     }
     async Task AddReview()
     {
+        review.UserEmail = authenticationState.User.Identity.Name;
         review.Movie = movie.Id;
         var result = await ReviewService.CreateReview(review);
         NavManager.NavigateTo("/");

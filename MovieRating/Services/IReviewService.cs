@@ -6,6 +6,7 @@ namespace MovieRating.Services
     {
         Task<Review> CreateReview(Review request);
         Task<List<Review>> GetReviewByMovieId(int id);
-        Task<int> GetAverageReviewByMovieId(int id);
+        Task<double> GetAverageReviewByMovieId(int id);
+        Task<double> GetUsersScoreByUserEmailAndMovieId(int id, string userEmail);
     }
 }
