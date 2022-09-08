@@ -15,14 +15,15 @@
 
 @code {
     [Parameter]
-    public int id { get; set; }
+    public string id { get; set; }
+    
     private void EditMovie()
     {
-
+        NavManager.NavigateTo($"movies/edit/{id}");
     }
     private void DeleteMovie()
     {
-        MovieService.DeleteMovieById(id);
+        MovieService.DeleteMovieById(Int32.Parse(id));
         NavManager.NavigateTo("/", true);
     }
 }

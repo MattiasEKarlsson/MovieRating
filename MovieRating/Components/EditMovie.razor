@@ -1,0 +1,60 @@
+﻿@page "/movies/edit/{id}"
+@inject IMovieService MovieService
+@inject IReviewService ReviewService
+@inject NavigationManager NavManager;
+
+@if (movie != null)
+{
+    
+    <div class="mt-5">
+        <div class="card p-5">
+            <EditForm Model="updatedMovie" OnValidSubmit="SaveMovieChanges">
+                <h5 class="card-banner mb-5"><ion-icon class="me-2" name="settings"></ion-icon>Edit Movie</h5>
+                <DataAnnotationsValidator />
+                <div class="row">
+                    <div class="col">
+                        <InputText @bind-Value="updatedMovie.Title" class="input me-5" placeholder="Movie Title" />
+                        
+                        <InputText @bind-Value="updatedMovie.Description" class="input mt-5 me-5" placeholder="Description" />
+                        
+                    </div>
+                </div>
+                <div class="mt-5 d-flex justify-content-end">
+                    <button id="registerSubmit" type="submit" class="primary-button">Save</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+
+}
+else
+{
+    <p>Loading..</p>
+}
+
+@code {
+    [Parameter]
+    public string id { get; set; }
+
+    private Movie movie;
+    MovieEditDTO updatedMovie;
+    protected override async Task OnInitializedAsync()
+    {
+        
+        movie = await MovieService.GetMovieById(Int32.Parse(id));
+        updatedMovie = new MovieEditDTO()
+        {
+            Title = movie.Title,
+            Description = movie.Description,
+        };
+    }
+
+    private async Task SaveMovieChanges()
+    {
+        movie.Title = updatedMovie.Title;
+        movie.Description = updatedMovie.Description;
+        var result = await MovieService.UpdateMovie(movie);
+        NavManager.NavigateTo("/", true);
+        
+    }
+}

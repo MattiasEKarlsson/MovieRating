@@ -45,6 +45,19 @@ namespace MovieRating.Services
             }
             return false;
         }
+        public async Task<bool> UpdateMovie(Movie movie)
+        {
+            if (movie != null)
+            {
+                _db.Movies.Update(movie);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public async Task<List<Movie>> GetMovies()
         {

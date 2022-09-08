@@ -21,7 +21,7 @@ else
         <div>
             <a href="/write-a-review/@movie.Id">Write a review...</a>
         </div>
-        <EditDelete id="@movie.Id"/>
+        <EditDelete id="@id"/>
     }
 
     <ReviewList id="@movie.Id" />
@@ -35,7 +35,6 @@ else
     [CascadingParameter]
     public Task<AuthenticationState> AuthenticationState { get; set; }
     AuthenticationState authenticationState;
-
     private Movie movie;
 
     protected override async Task OnInitializedAsync()
