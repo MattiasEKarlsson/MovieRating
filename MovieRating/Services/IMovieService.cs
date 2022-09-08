@@ -8,5 +8,6 @@ namespace MovieRating.Services
         Task<List<Movie>> GetMovies();
         Task<Movie> GetMovieById(int id);
         Task CreateInitialMovies();
+        Task<bool> DeleteMovieById(int movieId);
     }
 }

@@ -2,6 +2,7 @@
 @inject IMovieService MovieService
 @inject IReviewService ReviewService
 @inject NavigationManager NavManager;
+@attribute [Authorize]
 
 @if (movie == null)
 {

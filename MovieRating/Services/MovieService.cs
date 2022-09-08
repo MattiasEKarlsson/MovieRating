@@ -34,6 +34,18 @@ namespace MovieRating.Services
             }
         }
 
+        public async Task<bool> DeleteMovieById(int movieId)
+        {
+            var movie = await _db.Movies.FindAsync(movieId);
+            if (movie != null)
+            {
+                _db.Movies.Remove(movie);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
         public async Task<List<Movie>> GetMovies()
         {
             var movies = await _db.Movies.ToListAsync();

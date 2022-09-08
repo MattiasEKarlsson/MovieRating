@@ -1,0 +1,28 @@
+﻿@inject IMovieService MovieService
+@inject NavigationManager NavManager
+
+<div>
+    
+    <button @onclick="EditMovie">
+        Edit Movie
+    </button>
+    
+    <button @onclick="DeleteMovie">
+        Delete Movie
+    </button>
+
+</div>
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private void EditMovie()
+    {
+
+    }
+    private void DeleteMovie()
+    {
+        MovieService.DeleteMovieById(id);
+        NavManager.NavigateTo("/", true);
+    }
+}

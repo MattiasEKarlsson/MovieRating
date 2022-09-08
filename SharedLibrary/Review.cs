@@ -16,5 +16,6 @@ namespace SharedLibrary
         public int Rating { get; set; } = 0;
         [ForeignKey("MovieId")]
         public virtual int Movie { get; set; }
+        
     }
 }

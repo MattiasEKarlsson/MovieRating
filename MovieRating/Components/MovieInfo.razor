@@ -16,10 +16,13 @@ else
         </div>
         <p>@movie.Description</p>
     </div>
-    <div>
-        <a href="/write-a-review/@movie.Id">Write a review...</a>
-        <a>@movie.Id</a>
-    </div>
+    if (authenticationState.User.Identity.IsAuthenticated)
+    {
+        <div>
+            <a href="/write-a-review/@movie.Id">Write a review...</a>
+        </div>
+        <EditDelete id="@movie.Id"/>
+    }
 
     <ReviewList id="@movie.Id" />
 
@@ -29,10 +32,15 @@ else
     [Parameter]
     public string id { get; set; }
 
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+    AuthenticationState authenticationState;
+
     private Movie movie;
 
     protected override async Task OnInitializedAsync()
     {
         movie = await MovieService.GetMovieById(Int32.Parse(id));
+        authenticationState = await AuthenticationState;
     }
 }
