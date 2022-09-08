@@ -40,7 +40,6 @@ else
     MovieEditDTO updatedMovie;
     protected override async Task OnInitializedAsync()
     {
-        
         movie = await MovieService.GetMovieById(Int32.Parse(id));
         updatedMovie = new MovieEditDTO()
         {

@@ -1,7 +1,15 @@
-﻿@inject IMovieService MovieService
-@inject IReviewService ReviewService
+﻿@inject IReviewService ReviewService
 @inject NavigationManager NavManager;
 
+
+<div>
+    <h3>Average rating: @averageRating</h3>
+    @if (authenticationState.User.Identity.IsAuthenticated)
+    {
+        <h3>Your rating: @authenticationState.User.Identity.Name</h3>
+    }
+    
+</div>
 <h2>All Reviews</h2>
 
 @if (reviews == null)
@@ -12,27 +20,41 @@ else
 {
     @foreach (var review in reviews)
     {
-        <div style="margin:10px;">
+        <div style="margin:10px; padding:20px; border-style: solid; " >
             <div>
                 <h5>@review.ReviewText</h5>
             </div>
             <div>
                 <h4>@review.Rating</h4>
             </div>
-           
-            
-
         </div>
     }
-    
 }
+
+
 @code {
     [Parameter]
     public int id { get; set; }
     private List<Review> reviews = new List<Review>();
 
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+    AuthenticationState authenticationState;
+
+    int averageRating;
+
     protected override async Task OnInitializedAsync()
     {
+        authenticationState = await AuthenticationState;
         reviews = await ReviewService.GetReviewByMovieId(id);
+        averageRating = await ReviewService.GetAverageReviewByMovieId(id);
     }
+
+
+
+    
+
+
+
+    
 }

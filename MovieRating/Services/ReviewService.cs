@@ -25,5 +25,29 @@ namespace MovieRating.Services
             var reviews = await _db.Reviews.Where(x => x.Movie == id).ToListAsync();
             return reviews;
         }
+        public async Task<int> GetAverageReviewByMovieId(int id)
+        {
+            var reviews = await _db.Reviews.Where(x => x.Movie == id).ToListAsync();
+            if (reviews.Count > 0)
+            {
+                int combinedScore = 0;
+                int numberOfReviews = 0;
+                foreach (var review in reviews)
+                {
+                    combinedScore = combinedScore + review.Rating;
+                    numberOfReviews++;
+                }
+
+                return combinedScore / numberOfReviews;
+
+            }
+            return 0;
+        }
+        //public async Task<int> GetUsersScoreByUserEmailAndMovieId(int id, string userEmail)
+        //{
+        //    var review = await _db.Reviews.Where(x=>x.Movie == )
+           
+        //    return 0;
+        //}
     }
 }
